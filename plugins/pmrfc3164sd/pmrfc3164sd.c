@@ -195,6 +195,12 @@ static int parseRFCStructuredData(uchar **pp2parse, uchar *pResult, int *pLenStr
 	p2parse = *pp2parse;
 	lenStr = *pLenStr;
 
+	if (*p2parse == ' ') {
+		/* Bypass first space found in MSG part */
+	        p2parse++;
+	        lenStr--;
+	}
+
 	/* this is the actual parsing loop
 	 * Remeber: structured data starts with [ and includes any characters
 	 * until the first ] followed by a SP. There may be spaces inside
