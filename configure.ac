@@ -2,9 +2,9 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.61)
-AC_INIT([rsyslog],[8.1903.0],[rsyslog@lists.adiscon.com])
-AC_DEFINE(VERSION_YEAR, 19, [year part of real rsyslog version])
-AC_DEFINE(VERSION_MONTH, 1, [month part of real rsyslog version])
+AC_INIT([rsyslog],[8.1903.0],[rsyslog@lists.adiscon.com])         # UPDATE on release
+AC_DEFINE(VERSION_YEAR, 19, [year part of real rsyslog version])  # UPDATE on release
+AC_DEFINE(VERSION_MONTH, 3, [month part of real rsyslog version]) # UPDATE on release
 
 AM_INIT_AUTOMAKE([subdir-objects])
 
@@ -1217,6 +1217,17 @@ if test "x$enable_imdiag" = "xyes"; then
 fi
 AM_CONDITIONAL(ENABLE_IMDIAG, test x$enable_imdiag = xyes)
 
+# settings for pmrfc3164sd
+AC_ARG_ENABLE(pmrfc3164sd,
+        [AS_HELP_STRING([--enable-pmrfc3164sd],[Compiles rfc3164sd parser module @<:@default=no@:>@])],
+        [case "${enableval}" in
+         yes) enable_pmrfc3164sd="yes" ;;
+          no) enable_pmrfc3164sd="no" ;;
+           *) AC_MSG_ERROR(bad value ${enableval} for --enable-pmrfc3164sd) ;;
+         esac],
+        [enable_pmrfc3164sd=no]
+)
+AM_CONDITIONAL(ENABLE_PMRFC3164SD, test x$enable_pmrfc3164sd = xyes)
 
 # mmnormalize
 AC_ARG_ENABLE(mmnormalize,
@@ -2389,6 +2400,7 @@ AC_CONFIG_FILES([Makefile \
 		plugins/omelasticsearch/Makefile \
 		plugins/omclickhouse/Makefile \
 		plugins/mmsnmptrapd/Makefile \
+		plugins/pmrfc3164sd/Makefile \
 		plugins/pmlastmsg/Makefile \
 		plugins/mmdblookup/Makefile \
 		contrib/omhttp/Makefile \
@@ -2471,6 +2483,7 @@ echo "    omtcl module will be compiled:            $enable_omtcl"
 echo "    omkafka module will be compiled:          $enable_omkafka"
 echo
 echo "---{ parser modules }---"
+echo "    pmrfc3164sd module will be compiled:      $enable_pmrfc3164sd"
 echo "    pmlastmsg module will be compiled:        $enable_pmlastmsg"
 echo "    pmcisconames module will be compiled:     $enable_pmcisconames"
 echo "    pmciscoios module will be compiled:       $enable_pmciscoios"
